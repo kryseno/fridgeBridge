@@ -131,9 +131,10 @@ function searchCocktail() {
  * loops through drink list and appends to page for cocktailDB
  */
 function renderDrinkList(name, photo) {
+    console.log('photo:', photo);
     $('.drink-list').show();
     var drinkPhoto = $('<img>', {
-        src: photo,
+        src: 'http://'+photo,
         css: {
             width: '50%'
         }
