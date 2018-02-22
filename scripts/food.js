@@ -19,7 +19,7 @@ function addClickHandler() {
     $('#submit-food').click(function () {
         getRecipe();
     })
-    $('#food-input').keydown(function (event) {
+    $('.input-food').keydown(function (event) {
         if (event.keyCode === 13) {
             event.preventDefault();
             $('#submit-food').click();
@@ -66,7 +66,7 @@ function getRecipe() {
     $('.recipe-list > div').empty();
     $('.recipe').css('display', 'none');
     var ingredient = {
-        recipe: $('#food-input').val(),
+        recipe: $('.input-food').val(),
     };
     if (ingredient.recipe !== '') {
         $('.food-spinner').css('display', 'inline-block');

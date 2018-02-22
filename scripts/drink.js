@@ -53,7 +53,6 @@ function searchDB() {
     $('.drink-ing div p').text('');
     $('.drink-ing').css('display', 'none');
     searchCocktail();
-    add_vids_to_carousel();
 }
 /***************************************************************************************************
  * displayErrorMessage
