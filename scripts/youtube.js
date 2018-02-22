@@ -17,7 +17,6 @@ function initializeApp() {
 
 function add_vids_to_carousel() {
     if ($(this).attr('id') === 'submit-drink') {
-
         var item = 'drink';
         renderVideos(item);
 
@@ -65,6 +64,9 @@ function add_vids_to_carousel() {
         //     }
         // });
     } else if ($(this).attr('id') === 'submit-food') {
+        var item = 'food';
+        renderVideos(item);
+        
         $(".food-item").empty();
         var foodSearchTerm = $('#food-input').val() + '';
         $('.food-search-term').text('"' + foodSearchTerm + '"');
@@ -133,7 +135,7 @@ function renderVideos(category){
     $(item).empty();
     var searchTerm = $(searchTerm).val() + '';
     $(searchItemText).text('"' + searchTerm + '"');
-    
+
     if (category === 'food') {
         var dataObject = {
             q: searchTerm + ' meals recipe tutorial',
