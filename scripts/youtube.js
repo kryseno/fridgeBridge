@@ -14,7 +14,6 @@ function initializeApp() {
  * @returns  {undefined} none
  * determines which category search terms are coming from, and then renders youtube videos to correct section
  */
-
 function add_vids_to_carousel() {
     if ($(this).attr('id') === 'submit-drink') {
         var item = 'drink';
@@ -30,7 +29,6 @@ function add_vids_to_carousel() {
  * @returns  {undefined} none
  * when search is utilized, takes user's terms and uses youtube api to pull up related tutorials/recipes
  */
-
 function renderVideos(category){
     var item = "." + category + "-item";
     var searchTerm = ".input-" + category;
@@ -67,6 +65,31 @@ function renderVideos(category){
                 });
                 $("#" + category + "-video" + i).append(videosList);
             }
+        },
+        error: function (result) {
+            errorMessage(result);
         }
     })
+}
+/***************************************************************************************************
+ * errorMessage
+ * @params {object} data
+ * @returns  {undefined} none
+ * if error in ajax call, determines which type of error occurs and calls appropriate display message function
+ */
+function errorMessage(data) {
+    if (data.status ==404) {
+        displayErrorMessage('Not Found');
+    } else if (data.status === 500) {
+        displayErrorMessage('Internal Server Error');
+    }
+}
+/***************************************************************************************************
+ * displayErrorMessage
+ * @params {string} message
+ * @returns  {undefined} none
+ *  displays specific message to user in carousel div
+ */
+function displayErrorMessage(message) {
+    $("#drink-carousel-inner").text(message);
 }
