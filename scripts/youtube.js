@@ -2,7 +2,7 @@ $(document).ready(initializeApp);
 /***************************************************************************************************
  * initializeApp
  * @params {undefined} none
- * @returns: {undefined} none
+ * @returns {undefined} none
  * initializes the application, adds click handlers to submit buttons
  */
 function initializeApp() {
