@@ -12,7 +12,7 @@ function initializeApp() {
  * add_vids_to_carousel
  * @params {undefined} none
  * @returns  {undefined} none
- * when search is utilized, takes user's terms and uses youtube api to pull up related tutorials/recipes
+ * determines which category search terms are coming from, and then renders youtube videos to correct section
  */
 
 function add_vids_to_carousel() {
@@ -24,16 +24,20 @@ function add_vids_to_carousel() {
         renderVideos(item);
     }
 }
+/***************************************************************************************************
+ * renderVideos
+ * @params {string} category
+ * @returns  {undefined} none
+ * when search is utilized, takes user's terms and uses youtube api to pull up related tutorials/recipes
+ */
 
 function renderVideos(category){
     var item = "." + category + "-item";
     var searchTerm = ".input-" + category;
     var searchItemText = "." + category + "-search-item";
-
-    $(item).empty();
     var searchTerm = $(searchTerm).val() + '';
-    $(searchItemText).text('"' + searchTerm + '"');
 
+    //Determine search category to collect correct data
     if (category === 'food') {
         var dataObject = {
             q: searchTerm + ' meals recipe tutorial',
@@ -45,6 +49,9 @@ function renderVideos(category){
             maxResults: 5
         };
     }
+    $(searchItemText).text('"' + searchTerm + '"');
+    
+    //AJAX call to YouTube API
     $.ajax({
         dataType: 'json',
         method: 'post',
