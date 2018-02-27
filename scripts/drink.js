@@ -132,7 +132,7 @@ function searchCocktail() {
 function renderDrinkList(name, photo) {
     $('.drink-list').show();
     var drinkPhoto = $('<img>', {
-        src: 'http://'+photo,
+        src: photo,
         css: {
             width: '50%'
         }
@@ -214,7 +214,7 @@ function renderCocktailInfo(array) {
     $('.back-drink').css('display', 'inline-block');
     $('.drink-list').css('display', 'none');
     $('.drink-ing').show();
-    $('.photo-img > img').css('background-image', 'url(http://' + array[3] + ')');
+    $('.photo-img > img').css('background-image', 'url(' + array[3] + ')');
     if (typeof(array[0]) === 'object') {
         $('.ingred-sec > ul').empty();
         var ingredients = array[0];
