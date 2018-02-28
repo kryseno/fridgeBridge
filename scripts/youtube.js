@@ -67,7 +67,7 @@ function renderVideos(category){
             }
         },
         error: function (result) {
-            errorMessage(result);
+            errorMessage(result, category);
         }
     })
 }
@@ -77,11 +77,11 @@ function renderVideos(category){
  * @returns  {undefined} none
  * if error in ajax call, determines which type of error occurs and calls appropriate display message function
  */
-function errorMessage(data) {
+function errorMessage(data, category) {
     if (data.status ==404) {
-        displayErrorMessage('Not Found');
+        displayErrorMessage('Not Found', category);
     } else if (data.status === 500) {
-        displayErrorMessage('Internal Server Error');
+        displayErrorMessage('Internal Server Error', category);
     }
 }
 /***************************************************************************************************
@@ -90,6 +90,13 @@ function errorMessage(data) {
  * @returns  {undefined} none
  *  displays specific message to user in carousel div
  */
-function displayErrorMessage(message) {
-    $("#drink-carousel-inner").text(message);
+function displayErrorMessage(message, category) {
+    if (category === "drink") {
+        $("#drink-carousel-inner").empty();
+        $("#drink-carousel-inner").text(message);
+    } else if (category === "food") {
+        $("#food-carousel-inner").empty();
+        $("#food-carousel-inner").text(message);
+    }
 }
+    
