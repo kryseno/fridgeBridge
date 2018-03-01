@@ -17,9 +17,11 @@ function initializeApp() {
 function add_vids_to_carousel() {
     if ($(this).attr('id') === 'submit-drink') {
         var item = 'drink';
+        $("."+item+"-item").empty();
         renderVideos(item);
     } else if ($(this).attr('id') === 'submit-food') {
         var item = 'food';
+        $("."+item+"-item").empty();
         renderVideos(item);
     }
 }
