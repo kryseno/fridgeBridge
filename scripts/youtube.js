@@ -40,14 +40,14 @@ function renderVideos(category){
     var searchTerm = $(searchTerm).val() + '';
 
     //Determine search category to collect correct data
-    if (category === 'food') {
-        var dataObject = {
-            q: searchTerm + ' meals recipe tutorial',
-            maxResults: 5
-        };        
-    } else if (category === 'drink') {
+    if (category === 'drink') {
         var dataObject = {
             q: searchTerm + ' alcohol drink recipe tutorial',
+            maxResults: 5
+        };        
+    } else if (category === 'food') {
+        var dataObject = {
+            q: searchTerm + ' meals recipe tutorial',
             maxResults: 5
         };
     }
