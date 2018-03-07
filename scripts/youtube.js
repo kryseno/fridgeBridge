@@ -55,7 +55,7 @@ function renderVideos(category){
     $.ajax({
         dataType: 'json',
         method: 'post',
-        url: 'http://s-apis.learningfuze.com/hackathon/youtube/search.php',
+        url: 'http://s-apis.learningfuze.com/hackathon/youtube/search.ph',
         data: dataObject,
         success: function (result) {
             for (var i = 0; i < result.video.length; i++) {
@@ -69,36 +69,36 @@ function renderVideos(category){
             }
         },
         error: function (result) {
-            errorMessage(result, category);
+            if(result){
+                videoErrorMessage(result, category);
+            }
         }
     })
 }
 /***************************************************************************************************
- * errorMessage
+ * videoErrorMessage
  * @params {object} data
  * @returns  {undefined} none
  * if error in ajax call, determines which type of error occurs and calls appropriate display message function
  */
-function errorMessage(data, category) {
-    if (data.status ==404) {
-        displayErrorMessage('Not Found', category);
+function videoErrorMessage(data, category) {
+    if (data.status == 404) {
+        videoDisplayErrorMessage('Not Found', category);
     } else if (data.status === 500) {
-        displayErrorMessage('Internal Server Error', category);
+        videoDisplayErrorMessage('Internal Server Error', category);
     }
 }
 /***************************************************************************************************
- * displayErrorMessage
+ * videoDisplayErrorMessage
  * @params {string} message
  * @returns  {undefined} none
  *  displays specific message to user in carousel div
  */
-function displayErrorMessage(message, category) {
+function videoDisplayErrorMessage(message, category) {
     if (category === "drink") {
-        $("#drink-carousel-inner").empty();
-        $("#drink-carousel-inner").text(message);
+        $(".youtube-sec").append(message);
     } else if (category === "food") {
-        $("#food-carousel-inner").empty();
-        $("#food-carousel-inner").text(message);
+        $(".vid-tutorials").append(message);
     }
 }
     
