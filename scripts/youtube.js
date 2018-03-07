@@ -1,7 +1,7 @@
 $(document).ready(initializeApp);
 /***************************************************************************************************
  * initializeApp
- * @params {undefined} none
+ * @param {undefined} none
  * @returns {undefined} none
  * initializes the application, adds click handlers to submit buttons
  */
@@ -10,24 +10,26 @@ function initializeApp() {
 }
 /***************************************************************************************************
  * add_vids_to_carousel
- * @params {undefined} none
+ * @param {undefined} none
  * @returns  {undefined} none
  * determines which category search terms are coming from, and then renders youtube videos to correct section
  */
 function add_vids_to_carousel() {
-    if ($(this).attr('id') === 'submit-drink') {
-        var item = 'drink';
-        $("."+item+"-item").empty();
-        renderVideos(item);
-    } else if ($(this).attr('id') === 'submit-food') {
-        var item = 'food';
-        $("."+item+"-item").empty();
-        renderVideos(item);
+    var id = $(this).attr('id');
+    var category = id.substr(7);
+    var categoryItem = "."+category+"-item";
+    var errorMsg = "."+category+"ErrorMsg";
+
+    $(categoryItem).empty();
+    renderVideos(category);
+
+    if($(errorMsg)[0]){
+        $(errorMsg).remove();
     }
 }
 /***************************************************************************************************
  * renderVideos
- * @params {string} category
+ * @param {string} category - Category of search terms.
  * @returns  {undefined} none
  * when search is utilized, takes user's terms and uses youtube api to pull up related tutorials/recipes
  */
@@ -38,14 +40,14 @@ function renderVideos(category){
     var searchTerm = $(searchTerm).val() + '';
 
     //Determine search category to collect correct data
-    if (category === 'food') {
-        var dataObject = {
-            q: searchTerm + ' meals recipe tutorial',
-            maxResults: 5
-        };        
-    } else if (category === 'drink') {
+    if (category === 'drink') {
         var dataObject = {
             q: searchTerm + ' alcohol drink recipe tutorial',
+            maxResults: 5
+        };        
+    } else if (category === 'food') {
+        var dataObject = {
+            q: searchTerm + ' meals recipe tutorial',
             maxResults: 5
         };
     }
@@ -68,37 +70,24 @@ function renderVideos(category){
                 $("#" + category + "-video" + i).append(videosList);
             }
         },
-        error: function (result) {
-            errorMessage(result, category);
+        error: function (error) {
+            if(error){
+                videoErrorMessage(category);
+            }
         }
     })
 }
 /***************************************************************************************************
- * errorMessage
- * @params {object} data
+ * videoErrorMessage
+ * @param {string} category - Category of search items.
  * @returns  {undefined} none
- * if error in ajax call, determines which type of error occurs and calls appropriate display message function
+ * if error in ajax call, displays error message in youtube video div
  */
-function errorMessage(data, category) {
-    if (data.status ==404) {
-        displayErrorMessage('Not Found', category);
-    } else if (data.status === 500) {
-        displayErrorMessage('Internal Server Error', category);
-    }
+function videoErrorMessage(category) {
+    var section = "#" + category + "-sec";
+    var message = $("<div>", {
+        class: category + 'ErrorMsg',
+        text: 'There was an error obtaining video tutorials. Please try again.'
+    });
+    $(section).append(message);
 }
-/***************************************************************************************************
- * displayErrorMessage
- * @params {string} message
- * @returns  {undefined} none
- *  displays specific message to user in carousel div
- */
-function displayErrorMessage(message, category) {
-    if (category === "drink") {
-        $("#drink-carousel-inner").empty();
-        $("#drink-carousel-inner").text(message);
-    } else if (category === "food") {
-        $("#food-carousel-inner").empty();
-        $("#food-carousel-inner").text(message);
-    }
-}
-    
