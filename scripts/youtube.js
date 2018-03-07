@@ -1,7 +1,7 @@
 $(document).ready(initializeApp);
 /***************************************************************************************************
  * initializeApp
- * @params {undefined} none
+ * @param {undefined} none
  * @returns {undefined} none
  * initializes the application, adds click handlers to submit buttons
  */
@@ -10,7 +10,7 @@ function initializeApp() {
 }
 /***************************************************************************************************
  * add_vids_to_carousel
- * @params {undefined} none
+ * @param {undefined} none
  * @returns  {undefined} none
  * determines which category search terms are coming from, and then renders youtube videos to correct section
  */
@@ -19,15 +19,23 @@ function add_vids_to_carousel() {
         var item = 'drink';
         $("."+item+"-item").empty();
         renderVideos(item);
+        var drinkErrorMsg = "."+item+"ErrorMsg";
+        if($(drinkErrorMsg)[0]){
+            $(drinkErrorMsg).remove();
+        }
     } else if ($(this).attr('id') === 'submit-food') {
         var item = 'food';
         $("."+item+"-item").empty();
         renderVideos(item);
+        var foodErrorMsg = "."+item+"ErrorMsg";
+        if($(foodErrorMsg)[0]){
+            $(foodErrorMsg).remove();
+        }
     }
 }
 /***************************************************************************************************
  * renderVideos
- * @params {string} category
+ * @param {string} category - Category of search terms.
  * @returns  {undefined} none
  * when search is utilized, takes user's terms and uses youtube api to pull up related tutorials/recipes
  */
@@ -68,37 +76,25 @@ function renderVideos(category){
                 $("#" + category + "-video" + i).append(videosList);
             }
         },
-        error: function (result) {
-            if(result){
-                videoErrorMessage(result, category);
+        error: function (error) {
+            if(error){
+                // $("#" + category + "-carousel").removeClass('hidden');
+                videoErrorMessage(category);
             }
         }
     })
 }
 /***************************************************************************************************
  * videoErrorMessage
- * @params {object} data
+ * @param {string} category - Category of search items.
  * @returns  {undefined} none
- * if error in ajax call, determines which type of error occurs and calls appropriate display message function
+ * if error in ajax call, displays error message in youtube video div
  */
-function videoErrorMessage(data, category) {
-    if (data.status == 404) {
-        videoDisplayErrorMessage('Not Found', category);
-    } else if (data.status === 500) {
-        videoDisplayErrorMessage('Internal Server Error', category);
-    }
+function videoErrorMessage(category) {
+    var section = "#" + category + "-sec";
+    var message = $("<div>", {
+        class: category + 'ErrorMsg',
+        text: 'There was an error obtaining video tutorials. Please try again.'
+    });
+    $(section).append(message);
 }
-/***************************************************************************************************
- * videoDisplayErrorMessage
- * @params {string} message
- * @returns  {undefined} none
- *  displays specific message to user in carousel div
- */
-function videoDisplayErrorMessage(message, category) {
-    if (category === "drink") {
-        $(".youtube-sec").append(message);
-    } else if (category === "food") {
-        $(".vid-tutorials").append(message);
-    }
-}
-    
