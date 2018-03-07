@@ -15,22 +15,16 @@ function initializeApp() {
  * determines which category search terms are coming from, and then renders youtube videos to correct section
  */
 function add_vids_to_carousel() {
-    if ($(this).attr('id') === 'submit-drink') {
-        var item = 'drink';
-        $("."+item+"-item").empty();
-        renderVideos(item);
-        var drinkErrorMsg = "."+item+"ErrorMsg";
-        if($(drinkErrorMsg)[0]){
-            $(drinkErrorMsg).remove();
-        }
-    } else if ($(this).attr('id') === 'submit-food') {
-        var item = 'food';
-        $("."+item+"-item").empty();
-        renderVideos(item);
-        var foodErrorMsg = "."+item+"ErrorMsg";
-        if($(foodErrorMsg)[0]){
-            $(foodErrorMsg).remove();
-        }
+    var id = $(this).attr('id');
+    var category = id.substr(7);
+    var categoryItem = "."+category+"-item";
+    var errorMsg = "."+category+"ErrorMsg";
+
+    $(categoryItem).empty();
+    renderVideos(category);
+
+    if($(errorMsg)[0]){
+        $(errorMsg).remove();
     }
 }
 /***************************************************************************************************
@@ -63,7 +57,7 @@ function renderVideos(category){
     $.ajax({
         dataType: 'json',
         method: 'post',
-        url: 'http://s-apis.learningfuze.com/hackathon/youtube/search.ph',
+        url: 'http://s-apis.learningfuze.com/hackathon/youtube/search.php',
         data: dataObject,
         success: function (result) {
             for (var i = 0; i < result.video.length; i++) {
@@ -78,7 +72,6 @@ function renderVideos(category){
         },
         error: function (error) {
             if(error){
-                // $("#" + category + "-carousel").removeClass('hidden');
                 videoErrorMessage(category);
             }
         }
